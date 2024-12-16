@@ -3,21 +3,22 @@
 import { Bell, Search } from 'lucide-react'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-                                      
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+
 export default function NonDashboardNavbar() {
   const router = useRouter()
-
+  const { user } = useUser();
+  const userRole = user?.publicMetadata?.userType as "student" | "teacher";
   return (
     <nav className="flex h-16 items-center justify-between border-b border-zinc-800 px-4 lg:px-6">
       <Link href="/" className="flex items-center gap-2 text-xl font-bold hover:text-muted-foreground transition-colors duration-200">
         NUEXUS
       </Link>
       <div className="flex items-center gap-2">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="text-muted-foreground hover:bg-secondary hover:text-white"
           onClick={() => router.push('/search')}
         >
@@ -32,10 +33,37 @@ export default function NonDashboardNavbar() {
           <span className="absolute right-2 top-2.5 h-2 w-2 rounded-full bg-blue-500" />
           <span className="sr-only">Notifications</span>
         </Button>
-        <Avatar className="h-8 w-8 border border-gray-700">
-          <AvatarImage src="/placeholder.svg" alt="User" />
-          <AvatarFallback>U</AvatarFallback>
-        </Avatar>
+        <SignedIn>
+        <UserButton
+            appearance={{
+              baseTheme: dark,
+              elements: {
+                userButtonOuterIdentifier: "text-muted-foreground",
+                userButtonBox: "scale-90 sm:scale-100",
+                userButtonTrigger: "rounded-full hover:bg-secondary hover:text-secondary-foreground transition-colors duration-200",
+                userButtonPopoverCard: "bg-background border border-border",
+                userButtonPopoverActionButton: "hover:bg-secondary hover:text-secondary-foreground transition-colors duration-200",
+                userButtonPopoverActionButtonText: "text-foreground",
+                userButtonPopoverFooter: "hidden",
+              },
+            }}
+            userProfileMode='navigation'
+            userProfileUrl={userRole === "teacher" ? "/teacher/profile" : "/user/profile"}
+          />
+        </SignedIn>
+        <SignedOut>
+            <Button
+            onClick={()=>router.push('/signin')}
+            variant={'secondary'}
+            >
+              Log in
+            </Button>
+            <Button
+            onClick={()=>router.push('/signup')}
+            >
+             Sign up
+            </Button>
+          </SignedOut>
       </div>
     </nav>
   )
