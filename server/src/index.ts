@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import * as dynamoose from "dynamoose";
 import courseRoutes from './routes/course.routes';
 import userClerkRoutes from './routes/userClerk.routes';
+import transactionRoutes from './routes/transaction.routes';
 import { clerkMiddleware, createClerkClient, requireAuth} from "@clerk/express";
 
 dotenv.config();
@@ -38,11 +39,13 @@ app.use(clerkMiddleware());
 
 app.use('/courses',courseRoutes);
 app.use('/users/clerk', requireAuth(),userClerkRoutes )
+app.use("/transactions", requireAuth(), transactionRoutes);
+
 app.get('/',(req,res)=>{
     res.json({message:'Hello World'});
 });
 
-
+ 
 // Server 
  
 const port=process.env.PORT || 8001;
