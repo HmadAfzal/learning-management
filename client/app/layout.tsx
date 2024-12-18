@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/providers/providers";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const dm_sans = DM_Sans({
   variable: "--font-dm-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           >
         <Providers>
         {children}
+        <Toaster />
         </Providers>
         </ThemeProvider>
       </body>

@@ -86,7 +86,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             placeholder={placeholder}
             {...field}
             rows={3}
-            className={`border-none bg-customgreys-darkGrey p-4 ${inputClassName}`}
+            className={`border-none bg-secondary p-4 ${inputClassName}`}
           />
         );
       case "select":
@@ -97,16 +97,16 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             onValueChange={field.onChange}
           >
             <SelectTrigger
-              className={`w-full border-none bg-customgreys-primarybg p-4 ${inputClassName}`}
+              className={`w-full bg-secondary p-4 ${inputClassName}`}
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent className="w-full bg-customgreys-primarybg border-customgreys-dirtyGrey shadow">
+            <SelectContent className="w-full bg-background border-secondaryshadow">
               {options?.map((option) => (
                 <SelectItem
                   key={option.value}
                   value={option.value}
-                  className={`cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey`}
+                  className={`cursor-pointer hover:!bg-secondary`}
                 >
                   {option.label}
                 </SelectItem>
@@ -121,7 +121,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
               checked={field.value}
               onCheckedChange={field.onChange}
               id={name}
-              className={`text-customgreys-dirtyGrey ${inputClassName}`}
+              className={`${inputClassName}`}
             />
             <FormLabel htmlFor={name} className={labelClassName}>
               {label}
